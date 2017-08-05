@@ -6,13 +6,11 @@ import os
 import time
 import multiprocessing
 
-project_path = "D:\webtest\webTest"
+project_path = "D:/"
 
 testsuites = unittest.TestLoader().discover(project_path, pattern="test*.py")
 
-runner = Runner()
-runner.run(testsuites)
-print runner.get_details()
+runner = unittest.TextTestRunner()
 
 
 def func(test):

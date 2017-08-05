@@ -60,10 +60,7 @@ class _TestResult(TestResult):
 
 if __name__ =="__main__":
     suit =TestLoader().loadTestsFromTestCase(case_01)
-    from common.HTMLTestRunner_2_beauty import HTMLTestRunner
-    a = HTMLTestRunner(open("d:/report.html","wb"),title="123123123",description="412412asdasdasd")
-    a.run(suit)
-    # TextTestRunner(resultclass=_TestResult,verbosity=2).run(suit)
-
+    runner = TextTestRunner(resultclass=_TestResult,verbosity=2)
+    runner.run(suit)
 
 

@@ -7,8 +7,6 @@
 import unittest
 from time import sleep
 
-from HtmlTestRunner.HTMLTestRunner_cn_2 import HTMLTestRunner
-
 class demo(unittest.TestCase):
     """
     一个解决用例间参数依赖的小想法，取巧的利用了pythnon的内存机制实现中间参数传递
@@ -85,6 +83,5 @@ if __name__ == "__main__":
     suite = TestSuite()
     for i in testlist:
         suite.addTest(demo(*i))
-    runnser  = HTMLTestRunner(open("d:/test.html","wb"),verbosity=2)
-    runnser.run(suite)
-    ## TextTestRunner().run(suite)
+    runner = unittest.TextTestRunner( verbosity=2)
+    runner.run(suite)
