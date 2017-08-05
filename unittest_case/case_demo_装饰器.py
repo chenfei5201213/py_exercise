@@ -4,6 +4,7 @@
 # @Author  : 守望at天空~
 import logging
 from time import sleep
+
 def demo(func):
     def wapper(*args,**kwargs):
         logging.warn( "测试启动")

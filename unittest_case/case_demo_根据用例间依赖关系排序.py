@@ -9,7 +9,6 @@ from time import sleep
 
 from HtmlTestRunner.HTMLTestRunner_cn_2 import HTMLTestRunner
 
-
 class demo(unittest.TestCase):
     """
     一个解决用例间参数依赖的小想法，取巧的利用了pythnon的内存机制实现中间参数传递

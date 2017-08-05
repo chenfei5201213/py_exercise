@@ -800,7 +800,6 @@ class HTMLTestRunner(Template_mixin):
 
         # o and e should be byte string because they are collected from stdout and stderr?
         if isinstance(o,str):
-
             # uo = unicode(o.encode('string_escape'))
             uo = o.decode('latin-1')
         else:

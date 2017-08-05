@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# HTMLTestRunner 截图版示例
+"""HTMLTestRunner 截图版示例"""
 from selenium import webdriver
 import unittest
 import time

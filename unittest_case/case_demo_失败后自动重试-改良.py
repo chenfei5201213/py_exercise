@@ -1,8 +1,11 @@
 #-*- coding: utf-8 -*-
-
+"""
+@Time    : 2017/6/19 10:48
+@File    : case_demo1.py
+# @Author  : 守望at天空
+"""
 import unittest
 from unittest import  TextTestRunner,TestResult,TestLoader
-
 
 class case_01(unittest.TestCase):
     def setUp(self):

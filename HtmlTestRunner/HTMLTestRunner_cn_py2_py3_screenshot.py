@@ -896,6 +896,7 @@ class HTMLTestRunner(Template_mixin):
             </div>""" %t.img
         else:
             img = """"""
+
         row = tmpl % dict(
             tid = tid,
             Class = (n == 0 and 'hiddenRow' or 'none'),

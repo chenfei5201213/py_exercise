@@ -9,7 +9,6 @@ import logging
 import os
 import datetime
 
-
 project_path = os.path.split(os.path.dirname(__file__))[0]
 now = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
 # 每次测试都创建独立的结果目录

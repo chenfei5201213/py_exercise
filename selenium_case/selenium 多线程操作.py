@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 
 import unittest
-from common import Runner
 # from common import HTMLTestRunner_cn_2
 import os
 import time
