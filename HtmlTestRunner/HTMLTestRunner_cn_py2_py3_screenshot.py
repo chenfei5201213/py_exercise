@@ -73,10 +73,11 @@ __version__ = "0.8.4"
 
 """
 Change History
-Version 0.8.3 by GoverSky
+Version 0.8.4 by GoverSky
 * Add sopport for 3.x
 * Add piechart for resultpiechart
 * Add Screenshot for selenium_case test
+* Add Retry on failed
 
 Version 0.8.2
 * Show output inline instead of popup window (Viorel Lupu).
@@ -109,11 +110,11 @@ else:
 # The redirectors below are used to capture output during testing. Output
 # sent to sys.stdout and sys.stderr are automatically captured. However
 # in some cases sys.stdout is already cached before HTMLTestRunner is
-# invoked (e.g. calling logging.basicConfig). In order to capture those
+# invoked (e.g. calling logging_demo.basicConfig). In order to capture those
 # output, use the redirectors for the cached stream.
 #
 # e.g.
-#   >>> logging.basicConfig(stream=HTMLTestRunner.stdout_redirector)
+#   >>> logging_demo.basicConfig(stream=HTMLTestRunner.stdout_redirector)
 #   >>>
 
 class OutputRedirector(object):
@@ -534,13 +535,14 @@ a.popup_link:hover {
 
 
     REPORT_TEST_WITH_OUTPUT_TMPL = r"""
-<tr id='%(tid)s'>
-    <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
+<tr id='%(tid)s' class='%(Class)s'>
+    <td ><div class='testcase'>%(desc)s</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
+    <span class='status %(style)s'>
     <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_%(tid)s')" >
-        %(status)s</a>
+        %(status)s</a></span>
 
     <div id='div_%(tid)s' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
@@ -560,9 +562,9 @@ a.popup_link:hover {
 
 
     REPORT_TEST_NO_OUTPUT_TMPL = r"""
-<tr id='%(tid)s' >
-    <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
-    <td colspan='5' align='center'>%(status)s</td>
+<tr id='%(tid)s' class='%(Class)s'>
+    <td><div class='testcase'>%(desc)s</div></td>
+    <td colspan='5' align='center'><span class='status %(style)s'>%(status)s</span></td>
     <td>%(img)s</td>
 </tr>
 """ # variables: (tid, Class, style, desc, status,img)
@@ -597,7 +599,7 @@ class _TestResult(TestResult):
     # note: _TestResult is a pure representation of results.
     # It lacks the output and reporting ability compares to unittest._TextTestResult.
 
-    def __init__(self, verbosity=1):
+    def __init__(self, verbosity=1,retry=0):
         TestResult.__init__(self)
         self.stdout0 = None
         self.stderr0 = None
@@ -614,6 +616,9 @@ class _TestResult(TestResult):
         #   stack trace,
         # )
         self.result = []
+        self.retry=retry
+        self.trys=0
+        self.status=0
 
 
     def startTest(self, test):
@@ -644,6 +649,15 @@ class _TestResult(TestResult):
         # Usually one of addSuccess, addError or addFailure would have been called.
         # But there are some path in unittest that would bypass this.
         # We must disconnect stdout in stopTest(), which is guaranteed to be called.
+        if self.retry:
+            if self.status ==1:
+                self.trys += 1
+                if self.trys <= self.retry:
+                    print ("retesting... %d" % self.trys)
+                    test(self)
+                else:
+                    self.status = 0
+                    self.trys = 0
         self.complete_output()
 
 
@@ -662,6 +676,7 @@ class _TestResult(TestResult):
 
     def addError(self, test, err):
         self.error_count += 1
+        self.status = 1
         TestResult.addError(self, test, err)
         _, _exc_str = self.errors[-1]
         output = self.complete_output()
@@ -680,6 +695,7 @@ class _TestResult(TestResult):
 
     def addFailure(self, test, err):
         self.failure_count += 1
+        self.status = 1
         TestResult.addFailure(self, test, err)
         _, _exc_str = self.failures[-1]
         output = self.complete_output()
@@ -700,8 +716,9 @@ class _TestResult(TestResult):
 class HTMLTestRunner(Template_mixin):
     """
     """
-    def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None):
+    def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None,retry=0):
         self.stream = stream
+        self.retry = retry
         self.verbosity = verbosity
         if title is None:
             self.title = self.DEFAULT_TITLE
@@ -717,7 +734,7 @@ class HTMLTestRunner(Template_mixin):
 
     def run(self, test):
         "Run the given test case or test suite."
-        result = _TestResult(self.verbosity)
+        result = _TestResult(self.verbosity,self.retry)
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
@@ -752,9 +769,12 @@ class HTMLTestRunner(Template_mixin):
         startTime = str(self.startTime)[:19]
         duration = str(self.stopTime - self.startTime)
         status = []
-        if result.success_count: status.append(u'通过 %s' % result.success_count)
-        if result.failure_count: status.append(u'失败 %s' % result.failure_count)
-        if result.error_count:   status.append(u'错误 %s' % result.error_count  )
+        if result.success_count:
+            status.append(u'<span class="tj passCase">Pass</span>%s' % result.success_count)
+        if result.failure_count:
+            status.append(u'<span class="tj failCase">Failure</span>%s' % result.failure_count)
+        if result.error_count:
+            status.append(u'<span class="tj errorCase">Error</span>%s' % result.error_count  )
         if status:
             status = ' '.join(status)
         else:
@@ -900,7 +920,7 @@ class HTMLTestRunner(Template_mixin):
         row = tmpl % dict(
             tid = tid,
             Class = (n == 0 and 'hiddenRow' or 'none'),
-            style = n == 2 and 'errorCase' or (n == 1 and 'failCase' or 'none'),
+            style = n == 2 and 'errorCase' or (n == 1 and 'failCase' or 'passCase'),
             desc = desc,
             script = script,
             status = self.STATUS[n],
