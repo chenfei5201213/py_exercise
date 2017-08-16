@@ -69,13 +69,13 @@ if __name__ == "__main__":
     testlists = [
         # [caseid, depend, data]
         ['test1', None, '111'],
-        ['test2', 'test1', '222'],
-        ['test3', 'test8', '333'],
-        ['test4', 'test7', '444'],
-        ['test5', 'test4', '555'],
-        ['test6', 'test3', '666'],
-        ['test7', 'test3', '777'],
-        ['test8', 'test2', '888']
+        ['test2', 'test3', '222'],
+        ['test3', None, '333'],
+        ['test4', None, '444'],
+        ['test5', None, '555'],
+        ['test6', None, '666'],
+        ['test7', None, '777'],
+        ['test8', None, '888']
     ]
 
     # 按照依赖排序用例，可能逻辑不太严谨

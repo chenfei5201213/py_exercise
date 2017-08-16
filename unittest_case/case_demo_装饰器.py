@@ -39,6 +39,7 @@ class case_01(unittest.TestCase):
         print u"case4"
 
 if __name__ =="__main__":
-    unittest.main()
+    testnames = filter(lambda a: False if a.startswith('__') else True, dir(case_01))
+    print map(case_01,testnames)
 
 

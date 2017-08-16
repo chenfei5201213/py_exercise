@@ -24,7 +24,6 @@ class case_01(unittest.TestCase):
         print u'case2'
         self.assertTrue(True)
 
-
     def test_113(self):
         '''testdesc3'''
         self.assertEqual(1,1)
