@@ -1,11 +1,11 @@
-def func(lt=[]):
+def func(lt):
+    lt = list(lt)
     if len(lt)<=1:
         return lt
     key=lt[0]
     lt_l=[]
     lt_r=[]
     lt_m=[]
-
     for i in lt:
         if i<key:
             lt_l.append(i)
