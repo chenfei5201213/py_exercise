@@ -2,10 +2,16 @@
 # @Time    : 2017/8/15 9:54
 # @File    : demo.py
 # @Author  : 守望@天空~
-from data_factory import data_mock
-
-generater = data_mock()
-state = generater.dist_code
-print u"地区行政编码：{state}:{code}".format(**state)
-id = generater.id(True)
-print u"身份证号：{state}:{id}".format(**id)
+data = {
+  "object|2-4": {
+    "110000": "北京市",
+    "120000": "天津市",
+    "130000": "河北省",
+    "140000": "山西省"
+  }
+}
+data0 = data.copy()
+for key,value in data.items():
+    if key.find("|"):
+        key,rule = key.split('|')
+        print rule
