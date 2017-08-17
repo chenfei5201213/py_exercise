@@ -10,6 +10,7 @@ from random import randint, choice
 from datetime import date
 from datetime import timedelta
 
+
 str_lower = 'abcdefghijklmnopqrstuvwxyz'
 str_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 str_number = '0123456789'
