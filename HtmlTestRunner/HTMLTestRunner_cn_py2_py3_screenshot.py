@@ -623,6 +623,7 @@ class _TestResult(TestResult):
 
     def startTest(self, test):
         TestResult.startTest(self, test)
+        test.img=""
         self.outputBuffer = StringIO.StringIO()
         stdout_redirector.fp = self.outputBuffer
         stderr_redirector.fp = self.outputBuffer
@@ -649,6 +650,7 @@ class _TestResult(TestResult):
         # Usually one of addSuccess, addError or addFailure would have been called.
         # But there are some path in unittest that would bypass this.
         # We must disconnect stdout in stopTest(), which is guaranteed to be called.
+
         if self.retry:
             if self.status ==1:
                 self.trys += 1
@@ -662,7 +664,6 @@ class _TestResult(TestResult):
 
 
     def addSuccess(self, test):
-        test.img = None
         self.success_count += 1
         TestResult.addSuccess(self, test)
         output = self.complete_output()
