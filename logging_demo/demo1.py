@@ -6,3 +6,6 @@
 from config_logger import logger
 
 logger.info(u'测试')
+logger.warning(u'测试')
+logger.error(u'测试')
+logger.debug(u'测试')
