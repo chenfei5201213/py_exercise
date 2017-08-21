@@ -9,7 +9,6 @@ import logging
 import os
 import datetime
 from logging.handlers import TimedRotatingFileHandler
-import sys
 
 project_path = os.path.split(os.path.dirname(__file__))[0]
 now = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
@@ -25,7 +24,7 @@ fh.setLevel(logging.INFO)
 # time_fh = TimedRotatingFileHandler(filename="logs",encoding='utf-8', when="midnight", backupCount=2)
 # time_fh.setLevel(logging_demo.INFO)
 # 创建命令行输出
-ch = logging.StreamHandler(sys.stdout)
+ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 # 设置日志输出格式
 formatter = logging.Formatter(u'%(asctime)s %(filename)s:%(lineno)s %(levelname)s %(message)s')
