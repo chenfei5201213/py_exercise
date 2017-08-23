@@ -81,7 +81,7 @@ class data_generator(object):
     @property
     def word(self):
         # 用于生成随机长度字符串
-        n = randint(3, 10)
+        n = randint(4, 12)
         charater = ""
         for i in range(n):
             charater += choice(str_lower)
@@ -123,7 +123,7 @@ class data_generator(object):
 
     @property
     def email(self):
-        return "%s%s" % (a.word, choice(mails))
+        return "%s%s" % (self.word, choice(mails))
 
     @property
     def address(self):
