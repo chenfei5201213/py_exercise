@@ -8,24 +8,22 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-
 class Department(Base):
     __tablename__ = 'department'
     id = Column(Integer, primary_key=True)
     name = Column(String(length=20))
-
 
 class Employee(Base):
     __tablename__ = 'employee'
     id = Column(Integer, primary_key=True)
     name = Column(String(length=20))
     hired_on = Column(DateTime, default=func.now())
-    department_id = Column(Integer, ForeignKey('department.id'))
+    department_id = Column(Integer, ForeignKey('department.id',ondelete='CASCADE', onupdate='CASCADE'))
     department = relationship(
         Department,
         backref=backref('employees',
-                        uselist=True,
-                        cascade='delete,all'))
+        uselist=True,
+        cascade='delete,all'))
 
 
 from sqlalchemy import create_engine
