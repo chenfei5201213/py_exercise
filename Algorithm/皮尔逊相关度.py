@@ -3,6 +3,7 @@
 # @File    : 皮尔逊相关度.py
 # @Author  : 守望@天空~
 #计算皮尔逊相关度：
+
 def pearson(p,q):
 #只计算两者共同有的
     same = 0

@@ -1,8 +1,9 @@
 #-*- coding: utf-8 -*-
 # @Time    : 2017/8/25 9:29
-# @File    : 相似度计算.py
+# @File    : 相关性计算.py
 # @Author  : 守望@天空~
 # pip install gensim  pyemd
+
 from gensim.models import word2vec
 sentences = word2vec.Text8Corpus(u"E:/py_exercise/Algorithm/语料库")
 model = word2vec.Word2Vec(sentences, size=200)
