@@ -40,6 +40,7 @@ def check(ids):
     print ids
     print birthday,star,sex
 
+# 结合数据生成器，直接生成个人信息数列
 from Data_generation.data_generator import data_generator
 ggg = data_generator()
 for i in range(100):
